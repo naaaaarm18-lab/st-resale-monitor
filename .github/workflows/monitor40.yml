@@ -1,0 +1,23 @@
+name: resale monitor 40
+
+on:
+  schedule:
+    - cron: "*/1 * * * *"
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check resale
+        run: |
+          URL="https://relief-ticket.jp/events/artist/40/127"
+
+          html=$(curl -s "$URL")
+
+          if echo "$html" | grep -q "リセール"; then
+            curl -X POST https://api.line.me/v2/bot/message/broadcast \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.LINE_TOKEN_2 }}" \
+            -d "{\"messages\":[{\"type\":\"text\",\"text\":\"リセール出品検知: $URL\"}]}"
+          fi
