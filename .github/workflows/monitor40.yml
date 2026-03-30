@@ -15,7 +15,7 @@ jobs:
 
           html=$(curl -s "$URL")
 
-          if echo "$html" | grep -q "リセール"; then
+          if echo "$html" | grep -q "購入手続きへ"; then
             curl -X POST https://api.line.me/v2/bot/message/broadcast \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.LINE_TOKEN_2 }}" \
